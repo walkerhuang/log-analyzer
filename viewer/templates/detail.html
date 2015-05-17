@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1>{{log.name}}</h1>
+	<table class="table table-hover">
+		<tr>
+			<th>Time</th>
+			<th>Name</th>
+			<th>Output</th>
+			<th>Duration</th>
+		</tr>
+		{% for cmd in log.cmd_set.all %}
+		    {% if cmd.exit == "1" %}
+		        <tr class="warning">
+		    {% else %}
+		        <tr>
+	        {% endif %}
+			<td>{{cmd.time|time:"H:i:s"}}</td>
+			<td>{{cmd.name}}</td>
+			<td>{{cmd.output|linebreaks}}</td>
+			<td>{{cmd.duration}}</td>
+		{% endfor %}
+	</table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Logs</h1>
+<h2>Log List</h2>
+{% for log in logs %}
+<a href="{%url 'viewer:detail' log.id%}">{{log.name}}</a></h2>
+<br />
+{% endfor %}
+
+<table class="table table-hover">
+	<tr>
+		<td>test1</td>
+		<td>test2</td>
+	</tr>
+</table>
+
+<a href="{%url 'viewer:add'%}">Upload Log</a>
+{% endblock %}

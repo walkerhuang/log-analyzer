@@ -1,0 +1,7 @@
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+{% endblock %}
+    <div class="container">
+        {% block content %}(no content){% endblock %}
+    </div>
