@@ -1,23 +1,55 @@
 {% extends "base.html" %}
+
 {% block content %}
-	<h1>{{log.name}}</h1>
-	<table class="table table-hover">
-		<tr>
-			<th>Time</th>
-			<th>Name</th>
-			<th>Output</th>
-			<th>Duration</th>
-		</tr>
-		{% for cmd in log.cmd_set.all %}
-		    {% if cmd.exit == "1" %}
-		        <tr class="warning">
-		    {% else %}
-		        <tr>
-	        {% endif %}
-			<td>{{cmd.time|time:"H:i:s"}}</td>
-			<td>{{cmd.name}}</td>
-			<td>{{cmd.output|linebreaks}}</td>
-			<td>{{cmd.duration}}</td>
+<h1 class="lead">{{record.name}}</h1>
+<ul id="myTab" class="nav nav-tabs">
+	{% for lf in record.logfile_set.all %}
+	{% if forloop.first %}
+	<li class="active">
+		{% else %}
+	<li>
+		{% endif %} <a href="#{{ lf.host }}" data-toggle="tab"> {{lf.host}} </a>
+	</li>
+	{% endfor %}
+</ul>
+<div id="myTabContent" class="tab-content">
+	{% for lf in record.logfile_set.all %}
+	{% if forloop.first %}
+	<div class="tab-pane fade in active" id="{{ lf.host }}">
+		{% else %}
+		<div class="tab-pane fade" id="{{ lf.host }}">
+			{% endif %}
+			<table class="table table-striped table-bordered table-hover datatable">
+				<thead>
+					<tr>
+						<th>Time</th>
+						<th>Name</th>
+						<th>Output</th>
+						<th>Duration</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for cmd in lf.cmd_set.all %}
+					{% if cmd.exit == "1" %}
+					<tr class="warning">
+						{% else %}
+					<tr>
+						{% endif %}
+						<td>{{cmd.time|time:"H:i:s"}}</td>
+						<td title="{{cmd.name}}">{{cmd.name|truncatechars:100}}</td>
+						<td title="{{cmd.output}}">{{cmd.output|linebreaks|truncatechars:100}}</td>
+						<td>{{cmd.duration}}</td>
+						{% endfor %}
+				</tbody>
+			</table>
+		</div>
 		{% endfor %}
-	</table>
-{% endblock %}
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.datatable').dataTable({
+				"bPaginate" : false,
+			});
+		});
+	</script>
+	{% endblock %}
