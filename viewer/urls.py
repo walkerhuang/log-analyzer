@@ -8,6 +8,7 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
     url(r'^$', 'viewer.views.index', name='index'),
     url(r'^(?P<pk>[0-9]+)/$', 'viewer.views.detail', name='detail'),
+    url(r'^(?P<pk>[0-9]+)/delete$', 'viewer.views.delete', name='delete'),
     url(r'^add/$', 'viewer.views.add', name='add'),
     
 ]

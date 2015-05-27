@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Logs</h1>
-<h2>Log List</h2>
-{% for log in logs %}
-<a href="{%url 'viewer:detail' log.id%}">{{log.name}}</a></h2>
-<br />
-{% endfor %}
-
+<h2>Record List</h2>
 <table class="table table-hover">
 	<tr>
-		<td>test1</td>
-		<td>test2</td>
+		<th>Record Name</th>
+		<th>Upload Time</th>
+		<th>Version</th>
+		<th>Padv</th>
+		<th>Excute Time</th>
+		<th>Operation</th>
 	</tr>
+	{% for record in records %}
+	<tr>
+		<td><a href="{%url 'viewer:detail' record.id%}">{{record.name}}</a></td>
+		<td>{{record.upload_time}}</td>
+		<td>{{record.version}}</td>
+		<td>{{record.padv}}</td>
+		<td>{{record.excute_time}}</td>
+		<td><a href="{%url 'viewer:delete' record.id%}">Delete</a></td>
+	</tr>
+{% endfor %}
 </table>
 
-<a href="{%url 'viewer:add'%}">Upload Log</a>
+<button type="button" class="btn"><a href="{%url 'viewer:add'%}">Upload Record</a></button>
 {% endblock %}
